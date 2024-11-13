@@ -53,6 +53,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ChangeDimension"",
+                    ""type"": ""Button"",
+                    ""id"": ""0b9aa0e5-e35a-4730-a000-10a908efdaa6"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -132,6 +141,17 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""VerticalMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6f45975a-7b8e-4ad1-b978-6d41e4c3052a"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeDimension"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -143,6 +163,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Gameplay_HorizontalMove = m_Gameplay.FindAction("HorizontalMove", throwIfNotFound: true);
         m_Gameplay_VerticalMove = m_Gameplay.FindAction("VerticalMove", throwIfNotFound: true);
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
+        m_Gameplay_ChangeDimension = m_Gameplay.FindAction("ChangeDimension", throwIfNotFound: true);
     }
 
     ~@PlayerInputAction()
@@ -212,6 +233,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_HorizontalMove;
     private readonly InputAction m_Gameplay_VerticalMove;
     private readonly InputAction m_Gameplay_Jump;
+    private readonly InputAction m_Gameplay_ChangeDimension;
     public struct GameplayActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -219,6 +241,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @HorizontalMove => m_Wrapper.m_Gameplay_HorizontalMove;
         public InputAction @VerticalMove => m_Wrapper.m_Gameplay_VerticalMove;
         public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
+        public InputAction @ChangeDimension => m_Wrapper.m_Gameplay_ChangeDimension;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -237,6 +260,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @ChangeDimension.started += instance.OnChangeDimension;
+            @ChangeDimension.performed += instance.OnChangeDimension;
+            @ChangeDimension.canceled += instance.OnChangeDimension;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -250,6 +276,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @ChangeDimension.started -= instance.OnChangeDimension;
+            @ChangeDimension.performed -= instance.OnChangeDimension;
+            @ChangeDimension.canceled -= instance.OnChangeDimension;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -272,5 +301,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnHorizontalMove(InputAction.CallbackContext context);
         void OnVerticalMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnChangeDimension(InputAction.CallbackContext context);
     }
 }

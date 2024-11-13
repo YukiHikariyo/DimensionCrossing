@@ -57,6 +57,7 @@ public class PlayerController : MonoBehaviour
     {
         playerInputAction.Gameplay.Jump.started += Jump;
         playerInputAction.Gameplay.VerticalMove.started += ClimbLadder;
+        playerInputAction.Gameplay.ChangeDimension.started += ChangeDimension;
         playerInputAction.Enable();
         
         ChangeState(EPlayerState.Ground);
@@ -69,6 +70,7 @@ public class PlayerController : MonoBehaviour
         playerInputAction.Disable();
         playerInputAction.Gameplay.Jump.started -= Jump;
         playerInputAction.Gameplay.VerticalMove.started -= ClimbLadder;
+        playerInputAction.Gameplay.ChangeDimension.started -= ChangeDimension;
     }
 
     private void FixedUpdate()
@@ -142,5 +144,10 @@ public class PlayerController : MonoBehaviour
     {
         if (LadderCheck())
             ChangeState(EPlayerState.Ladder);
+    }
+    
+    private void ChangeDimension(InputAction.CallbackContext obj)
+    {
+        DimensionManager.Instance.ChangeDimension();
     }
 }
