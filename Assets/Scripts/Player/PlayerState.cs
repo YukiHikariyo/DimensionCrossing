@@ -98,7 +98,7 @@ public class PlayerAirState : BasePlayerState
     
     public override void OnEnter()
     {
-        
+        playerController.jumpTimes = 0;
     }
 
     public override void PhysicsUpdate()
